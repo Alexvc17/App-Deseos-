@@ -1,0 +1,52 @@
+<ion-header [translucent]="true" class="ion-no-border">
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start">
+            <ion-back-button color="tertiary" text="" defaultHref="/"></ion-back-button>
+        </ion-buttons>
+
+        <ion-title>{{lista?.titulo}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="dark">
+    <ion-list color="dark">
+        <ion-item color="dark" label="Nuevo item">
+            <ion-label position="floating">Nuevo item</ion-label>
+            <!--El ng model emite y escucha eventos ()emite []escucha-->
+            <!--Lo que sea que escriba en input lo voy a tener listo en nombreItem-->
+            <!--Cuando presione enter se va a dispara ese metodo agregarItem()-->
+            <ion-input type="text" [(ngModel)]="nombreItem" (keyup.enter)="agregarItem()"></ion-input>
+        </ion-item>
+    </ion-list>
+
+
+
+    <ion-list color="dark">
+
+        <!--Condicion-->
+        <ion-item color="dark" *ngIf="lista!.items.length > 0">
+            <ion-label><br>Tareas por hacer</ion-label>
+        </ion-item>
+
+        <!--Voy a necesitar ver los items que estoy creando  aca-->
+        <!--Ionic tiene ion change que se dispara cuando algo cambia-->
+        <!--La directiva [(ngModel)] establece la vinculación bidireccional entre el estado del checkbox
+          y la propiedad item.completado falso/true-->
+        <ion-item-sliding *ngFor="let item of lista?.items;  let pos = index" class="animated fadeInDown">
+            <!--Le decimos que quiero la posicion index de cada uno de los elementos de lista-->
+            <ion-item color="dark">
+                <ion-checkbox slot="start" color="tertiary" aria-label="Label" [(ngModel)]="item.completado" (ionChange)="cambioCheck(item)"></ion-checkbox>
+                <ion-label>{{item.desc}}</ion-label>
+            </ion-item>
+
+            <ion-item-options side="end">
+                <ion-item-option color="danger" (click)="borrar(pos)">
+                    <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-item-option>
+
+            </ion-item-options>
+        </ion-item-sliding>
+
+    </ion-list>
+
+</ion-content>
